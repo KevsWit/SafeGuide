@@ -13,9 +13,9 @@ homicidios_df = pd.read_csv("mdi_homicidiosintencionales_pm_2023_enero_septiembr
 turismo_df = pd.read_csv("atractivos_tur.csv", encoding='latin1')
 peligros_df = pd.read_excel("SGR_EventosPeligrosos_2010_2022Diciembre.xlsx")
 
-# Crear mapa Folium
-m = folium.Map(location=[-1.8312, -78.1834], zoom_start=6)
-cluster_turismo = MarkerCluster(name="Atractivos Turísticos").add_to(m)
+# Crear mapa de atractivos turísticos
+m_turismo = folium.Map(location=[-1.8312, -78.1834], zoom_start=6)
+cluster_turismo = MarkerCluster(name="Atractivos Turísticos").add_to(m_turismo)
 
 # Marcadores turísticos
 turismo_df = turismo_df.dropna(subset=['lat', 'lon'])
@@ -32,12 +32,41 @@ for _, row in turismo_df.iterrows():
         print(f"Error al agregar marcador turístico: {e}")
         continue
 
-# Guardar el mapa como HTML en memoria
-map_html = BytesIO()
-m.save(map_html, close_file=False)
-map_html.seek(0)
-map_data = map_html.read()
-map_src = "data:text/html;base64," + base64.b64encode(map_data).decode()
+map_turismo_html = BytesIO()
+m_turismo.save(map_turismo_html, close_file=False)
+map_turismo_html.seek(0)
+map_turismo_data = map_turismo_html.read()
+map_turismo_src = "data:text/html;base64," + base64.b64encode(map_turismo_data).decode()
+
+# Crear mapa de eventos peligrosos
+m_eventos = folium.Map(location=[-1.8312, -78.1834], zoom_start=6)
+cluster_eventos = MarkerCluster(name="Eventos Peligrosos").add_to(m_eventos)
+
+eventos_filtrados = peligros_df[
+    peligros_df['EVENTO'].astype(str).str.strip().str.upper().isin([
+        'INTOXICACIÓN', 'PERTURBACIÓN EN EVENTOS MASIVOS'
+    ])
+].dropna(subset=['LATITUD', 'LONGITUD'])
+
+for _, row in eventos_filtrados.iterrows():
+    try:
+        lat = float(row['LATITUD'])
+        lon = float(row['LONGITUD'])
+        evento = row['EVENTO'].title()
+        descripcion = row.get('DESCRIPCIÓN GENERAL DEL EVENTO', '')
+        provincia = row.get('PROVINCIA', '')
+        canton = row.get('CANTON', '')
+        popup_text = f"<b>{evento}</b><br>{descripcion}<br><i>{provincia} - {canton}</i>"
+        folium.Marker(location=[lat, lon], popup=popup_text, icon=folium.Icon(color='red')).add_to(cluster_eventos)
+    except Exception as e:
+        print(f"Error al agregar marcador de evento peligroso: {e}")
+        continue
+
+map_eventos_html = BytesIO()
+m_eventos.save(map_eventos_html, close_file=False)
+map_eventos_html.seek(0)
+map_eventos_data = map_eventos_html.read()
+map_eventos_src = "data:text/html;base64," + base64.b64encode(map_eventos_data).decode()
 
 # Crear la app Dash
 app = dash.Dash(__name__)
@@ -74,7 +103,10 @@ app.layout = html.Div([
     ], style={'width': '48%', 'display': 'inline-block', 'padding': '0 20px', 'verticalAlign': 'top'}),
 
     html.H2("Mapa de Atractivos Turísticos en Ecuador"),
-    html.Iframe(src=map_src, width='100%', height='600')
+    html.Iframe(src=map_turismo_src, width='100%', height='600'),
+
+    html.H2("Mapa de Eventos Peligrosos en Ecuador (SGR)"),
+    html.Iframe(src=map_eventos_src, width='100%', height='600')
 ])
 
 @app.callback(

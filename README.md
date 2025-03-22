@@ -1,4 +1,8 @@
+Aquí tienes tu `README.md` actualizado con las nuevas funcionalidades:
 
+---
+
+```markdown
 # 🧭 SafeGuide
 
 **SafeGuide** is an interactive travel guide designed to help people understand the status of tourist destinations by incorporating crime data, dangerous zones, crowded areas, and must-visit locations. The platform provides clear and useful visualizations to help travelers make safer, data-driven decisions.
@@ -14,6 +18,7 @@ The main idea of SafeGuide is to develop a mobile application that provides reli
 ### 🔐 Safety and Prevention
 
 - **Crime maps and dangerous zones**: The app visually highlights areas with higher crime incidence, allowing users to avoid high-risk areas and choose safer routes.
+- **Disaster and incident tracking**: A dashboard based on government emergency data (SGR) shows hazardous events like intoxications, natural disasters, or mass disturbances.
 - **Real-time alerts**: By integrating open data and local sources, the app will notify users of recent incidents or unsafe events.
 
 ---
@@ -31,19 +36,25 @@ The main idea of SafeGuide is to develop a mobile application that provides reli
 
 ---
 
-### 🧭 Current Functionality (Dash App)
+## 🧭 Current Functionality (Dash App)
 
 This version, built using Dash + Folium, includes:
 
-#### 🔍 Homicide Dashboard
+### 🔍 Homicide Dashboard
 
 - Filter data by **province** and **type of death**.
 - Visualize weapon usage with a histogram chart, segmented by gender.
 
-#### 🗺️ Interactive Map
+### ⚠️ Dangerous Events Dashboard (SGR)
 
-- Shows **tourist attractions** with markers and popups using **Folium**.
-- Includes the attraction name, category, and type.
+- Filter by **type of event** (e.g., “Intoxicación”, “Perturbación en eventos masivos”).
+- View reported cases by **province and canton** in a histogram chart.
+
+### 🗺️ Interactive Map
+
+- Displays **tourist attractions** with green markers using Folium.
+- Includes name, category, and type of each attraction.
+- The map loads quickly and only focuses on core tourist data for now.
 
 ---
 
@@ -64,6 +75,7 @@ SafeGuide/
 │
 ├── app.py                           # Main dashboard script
 ├── mdi_homicidiosintencionales...  # Homicide data (Ecuador)
+├── SGR_EventosPeligrosos_...xlsx    # Hazardous events dataset (SGR)
 ├── atractivos_tur.csv               # Tourist attraction dataset
 └── README.md                        # This file
 ```
@@ -78,7 +90,7 @@ SafeGuide/
 pip install dash pandas plotly folium
 ```
 
-2. Place the CSV files in the same directory as `app.py`.
+2. Place the CSV and Excel files in the same directory as `app.py`.
 
 3. Run the application:
 

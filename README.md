@@ -115,5 +115,4 @@ python app.py
 
 ---
 
-> **SafeGuide** is more than a travel tool — it's your trusted companion for safe, smart, and informed exploration.
-```
+**SafeGuide** is more than a travel tool — it's your trusted companion for safe, smart, and informed exploration.

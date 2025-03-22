@@ -1,64 +1,66 @@
 # 🧭 SafeGuide
 
-**SafeGuide** is an interactive travel guide designed to help people understand the status of tourist destinations by incorporating crime data, dangerous zones, crowded areas, and must-visit locations. The platform provides clear and useful visualizations to help travelers make safer, data-driven decisions.
+**SafeGuide** is an interactive travel guide designed to help people understand the status of tourist destinations in Ecuador by incorporating crime data, hazardous events, and tourist site information. The platform provides clear visualizations and a smart assistant to help travelers make safer, data-driven decisions.
 
 ---
 
 ## 📌 Project Overview
 
-The main idea of SafeGuide is to develop a mobile application that provides reliable and up-to-date information about tourist destinations using a generative AI capable of processing large volumes of data. Anyone planning a trip can consult the app and gain insight into the real situation of the place they want to visit, with a focus on:
+The main idea of SafeGuide is to develop a web-based application that provides reliable and up-to-date information about tourist destinations using a generative AI (Gemini) and official datasets. Travelers can use the app to:
+
+- Explore Ecuador's safest and most interesting destinations.
+- Identify areas with higher risk due to crime or dangerous events.
+- Get personalized recommendations using a conversational chatbot.
 
 ---
 
 ### 🔐 Safety and Prevention
 
-- **Crime maps and dangerous zones**: The app visually highlights areas with higher crime incidence, allowing users to avoid high-risk areas and choose safer routes.
-- **Disaster and incident tracking**: A dashboard based on government emergency data (SGR) shows hazardous events like intoxications, natural disasters, or mass disturbances.
-- **Real-time alerts**: By integrating open data and local sources, the app will notify users of recent incidents or unsafe events.
-
----
-
-### 🛣️ Infrastructure and Access
-
-- Stay informed about busy zones and optimal access routes.
+- **Crime maps and dangerous zones**: Visualize provinces and cantons with high crime rates, based on homicide data.
+- **Disaster and event tracking**: A dashboard based on SGR data shows past incidents like mass disturbances and intoxications.
+- **Real-time alerts (planned)**: Integrate up-to-date alerts using official data sources.
 
 ---
 
 ### 📍 Places to Visit
 
-- **Personalized recommendations**: Using generative AI, the app suggests historic sites, museums, parks, and local gastronomy tailored to user interests (e.g., family, adventure, cultural tourism).
-- **User reviews and summaries**: AI will generate short summaries from reviews posted on social media, websites, and travel platforms to highlight the reputation and key features of each place.
+- **Interactive maps**: See markers for tourist attractions and dangerous events.
+- **Customized suggestions**: Based on travel profiles (family, cultural, adventurous, etc.).
+- **Conversational AI**: Ask about the best places to visit, safety considerations, or travel ideas.
 
 ---
 
-## 🧭 Current Functionality
+## 💻 Current Features
 
-### 💻 Dash App (Data Visualization)
+### 📊 Dashboards
 
-This version, built using Dash + Folium, includes:
+Built with Dash and Folium, the app includes:
 
-#### 🔍 Homicide Dashboard
+#### 🔎 Homicide Dashboard
 - Filter data by **province** and **type of death**.
-- Visualize weapon usage with a histogram chart, segmented by gender.
+- View histograms segmented by weapon and gender.
 
-#### ⚠️ Dangerous Events Dashboard (SGR)
-- Filter by **type of event** (e.g., “Intoxicación”, “Perturbación en eventos masivos”).
-- View reported cases by **province and canton** in a histogram chart.
+#### ⚠️ Hazardous Events Dashboard (SGR)
+- Filter by **event type** (e.g., “Intoxicación”, “Perturbación en eventos masivos”).
+- Histogram showing event frequency by province and canton.
 
-#### 🗺️ Interactive Map
-- Displays **tourist attractions** with green markers using Folium.
-- Includes name, category, and type of each attraction.
-- The map loads quickly and only focuses on core tourist data for now.
+#### 🗺️ Interactive Maps
+- **Tourist attractions**: Displayed in green.
+- **Dangerous events**: Displayed in red, filtered by type.
+- Easy navigation for visual risk assessment and planning.
 
-### 🤖 SafeGuide Chatbot (Gemini AI)
+---
 
-- A conversational assistant built with **Gemini 1.5 Flash** using LangChain.
-- Accepts questions about:
-  - What places are safe or risky to visit
-  - Where to travel based on interests
-  - What tourist sites exist in specific provinces or cities
-- Responds in **Spanish or English** depending on user input.
-- Automatically blocks questions outside tourism-related topics in Ecuador.
+### 🤖 AI Chatbot (Integrated with Gemini AI)
+
+- Built into the Dash app interface.
+- Responds to user questions about:
+  - Safety of cities or provinces
+  - Travel suggestions by location
+  - Most common dangerous events in the area
+- Available in both **Spanish and English**.
+- Auto-blocks unrelated questions: responds with
+  > "Estoy enfocado en la guía turística, para otra consulta puedes utilizar otra herramienta"
 
 ---
 
@@ -70,7 +72,8 @@ This version, built using Dash + Folium, includes:
 - [Pandas](https://pandas.pydata.org/)
 - [Plotly Express](https://plotly.com/python/plotly-express/)
 - [LangChain](https://www.langchain.com/)
-- [Google Generative AI (Gemini)](https://ai.google.dev/)
+- [Gemini AI](https://ai.google.dev/)
+- [Google Generative AI API](https://ai.google.dev/)
 
 ---
 
@@ -79,72 +82,63 @@ This version, built using Dash + Folium, includes:
 ```
 SafeGuide/
 │
-├── app.py                           # Main dashboard script (Dash + Folium)
-├── chatbot.py                       # Conversational AI (Gemini + LangChain)
-├── mdi_homicidiosintencionales...  # Homicide data (Ecuador)
-├── SGR_EventosPeligrosos_...xlsx    # Hazardous events dataset (SGR)
+├── app.py                           # Main dashboard + chatbot UI (Dash + Folium + Gemini)
+├── mdi_homicidiosintencionales...  # Homicide dataset (CSV)
+├── SGR_EventosPeligrosos_...xlsx    # Hazardous events dataset (Excel)
 ├── atractivos_tur.csv               # Tourist attraction dataset
-├── .env                             # API key file for Gemini
+├── .env                             # API key for Gemini AI
 └── README.md                        # This file
 ```
 
 ---
 
-## 🚀 How to Run
+## 🚀 How to Run the App
 
-### For the Dashboard:
-
-1. Install required packages:
+### 1. Install dependencies
 ```bash
-pip install dash pandas plotly folium
+pip install dash pandas plotly folium python-dotenv langchain langchain-google-genai google-generativeai
 ```
-2. Place the data files in the same directory as `app.py`
-3. Run the application:
-```bash
-python app.py
-```
-4. Open your browser at: [http://127.0.0.1:8050](http://127.0.0.1:8050)
 
----
-
-### For the Chatbot:
-
-1. Install required packages:
-```bash
-pip install python-dotenv pandas langchain langchain-google-genai google-generativeai
-```
-2. Create a `.env` file with your Gemini API key:
+### 2. Create a `.env` file
+Inside your project folder:
 ```
 API_KEY_GEMINI=your_api_key_here
 ```
-3. Run the chatbot:
+
+### 3. Run the app
 ```bash
-python chatbot.py
+python app.py
 ```
+
+Then open [http://127.0.0.1:8050](http://127.0.0.1:8050) in your browser.
 
 ---
 
-## 🔮 Planned Features (Future)
+## 🔮 Planned Features
 
-- Smart itinerary generation with estimated travel times, costs, and schedules.
-- Enhanced AI chatbot with live data retrieval and contextual memory.
-- Visual heatmaps of high-risk areas and top-rated attractions.
-- User profile-based recommendations.
+- Itinerary planner with estimated time, distance, and safety scores.
+- Heatmaps with crime and danger density.
+- User-authenticated profiles to store preferences.
+- Language selection and offline support for chatbot responses.
 
 ---
 
 ## 🛡️ Privacy & Ethics
 
-- Complies with data protection laws and ensures responsible data handling.
-- AI models are transparent and explainable.
-- Avoids bias in recommendations or safety scoring.
+- Respects user privacy and does not store personal data.
+- Built with transparency and avoids bias in suggestions.
+- Uses only open and verifiable datasets.
 
 ---
 
 ## 👥 Authors
 
-- Developed by students of Computer Science as part of a project focused on data science, public safety, and smart tourism.
+Developed by Computer Science students as a final project focused on:
+- Public safety
+- Generative AI
+- Data visualization
+- Smart tourism
 
 ---
 
-**SafeGuide** is more than a travel tool — it's your trusted companion for safe, smart, and informed exploration.
+**SafeGuide** is more than just a travel app — it's your smart, safe companion to explore Ecuador.

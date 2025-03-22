@@ -1,8 +1,3 @@
-Aquí tienes tu `README.md` actualizado con las nuevas funcionalidades:
-
----
-
-```markdown
 # 🧭 SafeGuide
 
 **SafeGuide** is an interactive travel guide designed to help people understand the status of tourist destinations by incorporating crime data, dangerous zones, crowded areas, and must-visit locations. The platform provides clear and useful visualizations to help travelers make safer, data-driven decisions.
@@ -36,25 +31,34 @@ The main idea of SafeGuide is to develop a mobile application that provides reli
 
 ---
 
-## 🧭 Current Functionality (Dash App)
+## 🧭 Current Functionality
+
+### 💻 Dash App (Data Visualization)
 
 This version, built using Dash + Folium, includes:
 
-### 🔍 Homicide Dashboard
-
+#### 🔍 Homicide Dashboard
 - Filter data by **province** and **type of death**.
 - Visualize weapon usage with a histogram chart, segmented by gender.
 
-### ⚠️ Dangerous Events Dashboard (SGR)
-
+#### ⚠️ Dangerous Events Dashboard (SGR)
 - Filter by **type of event** (e.g., “Intoxicación”, “Perturbación en eventos masivos”).
 - View reported cases by **province and canton** in a histogram chart.
 
-### 🗺️ Interactive Map
-
+#### 🗺️ Interactive Map
 - Displays **tourist attractions** with green markers using Folium.
 - Includes name, category, and type of each attraction.
 - The map loads quickly and only focuses on core tourist data for now.
+
+### 🤖 SafeGuide Chatbot (Gemini AI)
+
+- A conversational assistant built with **Gemini 1.5 Flash** using LangChain.
+- Accepts questions about:
+  - What places are safe or risky to visit
+  - Where to travel based on interests
+  - What tourist sites exist in specific provinces or cities
+- Responds in **Spanish or English** depending on user input.
+- Automatically blocks questions outside tourism-related topics in Ecuador.
 
 ---
 
@@ -65,6 +69,8 @@ This version, built using Dash + Folium, includes:
 - [Folium](https://python-visualization.github.io/folium/)
 - [Pandas](https://pandas.pydata.org/)
 - [Plotly Express](https://plotly.com/python/plotly-express/)
+- [LangChain](https://www.langchain.com/)
+- [Google Generative AI (Gemini)](https://ai.google.dev/)
 
 ---
 
@@ -73,10 +79,12 @@ This version, built using Dash + Folium, includes:
 ```
 SafeGuide/
 │
-├── app.py                           # Main dashboard script
+├── app.py                           # Main dashboard script (Dash + Folium)
+├── chatbot.py                       # Conversational AI (Gemini + LangChain)
 ├── mdi_homicidiosintencionales...  # Homicide data (Ecuador)
 ├── SGR_EventosPeligrosos_...xlsx    # Hazardous events dataset (SGR)
 ├── atractivos_tur.csv               # Tourist attraction dataset
+├── .env                             # API key file for Gemini
 └── README.md                        # This file
 ```
 
@@ -84,40 +92,52 @@ SafeGuide/
 
 ## 🚀 How to Run
 
-1. Install required packages:
+### For the Dashboard:
 
+1. Install required packages:
 ```bash
 pip install dash pandas plotly folium
 ```
-
-2. Place the CSV and Excel files in the same directory as `app.py`.
-
+2. Place the data files in the same directory as `app.py`
 3. Run the application:
-
 ```bash
 python app.py
 ```
-
-4. Open your browser and go to: [http://127.0.0.1:8050](http://127.0.0.1:8050)
+4. Open your browser at: [http://127.0.0.1:8050](http://127.0.0.1:8050)
 
 ---
 
-## 🔮 Planned Features (Using Generative AI)
+### For the Chatbot:
+
+1. Install required packages:
+```bash
+pip install python-dotenv pandas langchain langchain-google-genai google-generativeai
+```
+2. Create a `.env` file with your Gemini API key:
+```
+API_KEY_GEMINI=your_api_key_here
+```
+3. Run the chatbot:
+```bash
+python chatbot.py
+```
+
+---
+
+## 🔮 Planned Features (Future)
 
 - Smart itinerary generation with estimated travel times, costs, and schedules.
-- AI-based chatbot that answers questions like:
-  - “What are the safest places to visit at night?”
-  - “What is the best route to avoid traffic?”
-- Recommendations that improve with user feedback and behavior.
-- Real-time data updates from government, media, tourism platforms, and social networks.
+- Enhanced AI chatbot with live data retrieval and contextual memory.
+- Visual heatmaps of high-risk areas and top-rated attractions.
+- User profile-based recommendations.
 
 ---
 
 ## 🛡️ Privacy & Ethics
 
 - Complies with data protection laws and ensures responsible data handling.
-- AI models will be transparent and explainable.
-- Avoids discriminatory bias in recommendations or safety scoring.
+- AI models are transparent and explainable.
+- Avoids bias in recommendations or safety scoring.
 
 ---
 
